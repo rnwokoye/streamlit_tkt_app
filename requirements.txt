@@ -3,3 +3,4 @@ botocore
 SQLAlchemy
 sqlalchemy-cockroachdb
 psycopg2-binary
+streamlit-authenticator
