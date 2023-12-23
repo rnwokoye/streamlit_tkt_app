@@ -1,6 +1,9 @@
 import streamlit as st
-from create_tkt import *
+
+# from create_tkt import *
 from login import log_in
+from pages.test_file import my_name
+from create_tkt import *
 
 
 st.title("Traffic Ticket Assignement :male-pilot: 	:vertical_traffic_light:")
