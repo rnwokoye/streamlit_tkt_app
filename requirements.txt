@@ -1,3 +1,4 @@
+streamlit_authenticator
 boto3
 botocore
 SQLAlchemy
