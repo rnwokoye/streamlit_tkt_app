@@ -96,7 +96,7 @@ def create_offense() -> pd.DataFrame:
             "Location": location,
             "Description": offense_description,
             "Photo": ", ".join(
-                st.session_state["saved_images"]
+                st.session_state["saved_images"][:-3]
             ),  # Made change adition here
         }
         df = pd.DataFrame(tkt_attributes, index=[0])
@@ -164,5 +164,5 @@ def insert_offense(offense_details: pd.DataFrame):
     # execute the query
     with conn.session as s:
         s.execute(query, offense_details)
-        # s.commit()
+        s.commit()
     return True
