@@ -5,9 +5,11 @@ import json
 from datetime import datetime, timedelta
 from random import randint
 import streamlit as st
-from sqlalchemy import text
+from sqlalchemy import text, insert
 
 import admin_page
+from picture_upload import camera_input, delete_files, local_path
+
 
 conn = st.connection("cockroachdb", type="sql")
 
@@ -45,7 +47,6 @@ def log_out():
 def create_offense() -> pd.DataFrame:
     # Get the offence info
     offense, fine = select_offense_df(get_offense_type("violations_list.csv"))
-
     # Input Offender Forms
     with st.form(key="offense_form", clear_on_submit=True):
         col1, col2 = st.columns(2)
@@ -68,6 +69,13 @@ def create_offense() -> pd.DataFrame:
         offense_description = st.text_area("Ticket Details")
         submit_button = st.form_submit_button("create ticket", type="primary")
 
+    with st.expander("Take a Picture"):
+        st.write("Click picture to capture image")
+        camera_input()
+        if st.button("Delete Files"):
+            delete_files(local_path)
+            st.session_state["saved_images"].clear()
+
     if submit_button:
         if not first_name or not last_name or not plate_number or not phone_number:
             st.error("Please fill in all the required fields.")
@@ -87,8 +95,12 @@ def create_offense() -> pd.DataFrame:
             "Phone Number": phone_number,
             "Location": location,
             "Description": offense_description,
+            "Photo": ", ".join(
+                st.session_state["saved_images"][:-3]
+            ),  # Made change adition here
         }
         df = pd.DataFrame(tkt_attributes, index=[0])
+
         st.write("Ticket Submitted")
         return df
 
@@ -135,15 +147,17 @@ def insert_offense(offense_details: pd.DataFrame):
         "Location": "location",
         "Description": "description",
         "Officer Name": "officer_name",
+        "Photo": "photos",
     }
 
     offense_details = offense_details.rename(columns=ren_cols)
 
     offense_details = offense_details.to_dict(orient="records")[0]
+
     query = text(
         """
-    INSERT INTO traffic_tickets (tkt_number, first_name, last_name, phone_number, offence_type, fine_amount, license_plate, date_issued, due_date, location, description, officer_name)
-    VALUES (:tkt_number, :first_name, :last_name, :phone_number, :offence_type, :fine_amount, :license_plate, :date_issued, :due_date, :location, :description, :officer_name);
+    INSERT INTO traffic_tickets (tkt_number, first_name, last_name, phone_number, offence_type, fine_amount, license_plate, date_issued, due_date, location, description, officer_name, photos)
+    VALUES (:tkt_number, :first_name, :last_name, :phone_number, :offence_type, :fine_amount, :license_plate, :date_issued, :due_date, :location, :description, :officer_name, :photos);
     """
     )
 
