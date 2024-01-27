@@ -29,3 +29,6 @@ tests.py
 todo_list.py
 app_login.yaml
 todo.py
+file_upload_test.py
+create_tkt_with_camera_input_old.py
+picture_upload.py 

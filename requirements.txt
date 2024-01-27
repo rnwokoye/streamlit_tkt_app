@@ -5,4 +5,5 @@ SQLAlchemy
 sqlalchemy-cockroachdb
 psycopg2-binary
 streamlit-authenticator
-# streamlit-back-camera-input==0.1.1
+s3fs
+st-files-connection
