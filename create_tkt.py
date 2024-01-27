@@ -8,7 +8,6 @@ import streamlit as st
 from sqlalchemy import text, insert
 
 import admin_page
-from picture_upload import camera_input, delete_files, local_path
 
 
 conn = st.connection("cockroachdb", type="sql")
