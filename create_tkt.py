@@ -8,7 +8,8 @@ import streamlit as st
 from sqlalchemy import text, insert
 
 import admin_page
-from picture_upload import camera_input, delete_files, local_path
+
+# from picture_upload import camera_input, delete_files, local_path
 
 
 conn = st.connection("cockroachdb", type="sql")
@@ -69,12 +70,12 @@ def create_offense() -> pd.DataFrame:
         offense_description = st.text_area("Ticket Details")
         submit_button = st.form_submit_button("create ticket", type="primary")
 
-    with st.expander("Take a Picture"):
-        st.write("Click picture to capture image")
-        camera_input()
-        if st.button("Delete Files"):
-            delete_files(local_path)
-            st.session_state["saved_images"].clear()
+    # with st.expander("Take a Picture"):
+    #     st.write("Click picture to capture image")
+    #     camera_input()
+    #     if st.button("Delete Files"):
+    #         delete_files(local_path)
+    #         st.session_state["saved_images"].clear()
 
     if submit_button:
         if not first_name or not last_name or not plate_number or not phone_number:
