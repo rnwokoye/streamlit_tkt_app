@@ -26,7 +26,3 @@ def log_in():
         st.error("Username/password is incorrect")
     elif st.session_state["authentication_status"] is None:
         st.warning("Please enter your username and password")
-
-
-if __name__ == "__main__":
-    log_in()
