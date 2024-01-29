@@ -73,7 +73,7 @@ def create_offense() -> pd.DataFrame:
             st.error("Please fill in all the required fields.")
             st.stop()
         else:
-            st.write(
+            st.success(
                 f"Fine of ${fine} for offense of {offense} has been submited for {first_name}"
             )
         tkt_attributes = {
@@ -91,8 +91,8 @@ def create_offense() -> pd.DataFrame:
         df = pd.DataFrame(tkt_attributes, index=[0])
 
         # remove this below
-        st.write(df)
-        st.write("Ticket Submitted")
+        st.dataframe(df)
+        st.success("Ticket Submitted")
         return df
 
 
