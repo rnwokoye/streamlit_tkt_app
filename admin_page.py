@@ -129,9 +129,10 @@ def set_background_color(df: pd.DataFrame):
 
 
 def get_tickets() -> pd.DataFrame:
-    query = f"""SELECT * FROM traffic_tickets;"""
+    query = f"""SELECT * FROM traffic_tickets order by first_name;"""
     today = datetime.datetime.now().date()
     data = conn.query(query)
+    st.write(data)
     res_df = pd.DataFrame(data)
     res_df["days_lapsed"] = pd.to_timedelta(today - res_df["due_date"]).dt.days
     res_df["status"] = np.where(res_df["days_lapsed"] > 30, "Overdue", "Current")
