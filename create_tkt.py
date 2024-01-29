@@ -87,11 +87,9 @@ def create_offense() -> pd.DataFrame:
             "Phone Number": phone_number,
             "Location": location,
             "Description": offense_description,
-            "Photo": ", ".join(
-                st.session_state["saved_images"][:-3]
-            ),  # Made change adition here
         }
         df = pd.DataFrame(tkt_attributes, index=[0])
+        st.write(df)
 
         st.write("Ticket Submitted")
         return df
@@ -139,7 +137,6 @@ def insert_offense(offense_details: pd.DataFrame):
         "Location": "location",
         "Description": "description",
         "Officer Name": "officer_name",
-        "Photo": "photos",
     }
 
     offense_details = offense_details.rename(columns=ren_cols)
@@ -148,8 +145,8 @@ def insert_offense(offense_details: pd.DataFrame):
 
     query = text(
         """
-    INSERT INTO traffic_tickets (tkt_number, first_name, last_name, phone_number, offence_type, fine_amount, license_plate, date_issued, due_date, location, description, officer_name, photos)
-    VALUES (:tkt_number, :first_name, :last_name, :phone_number, :offence_type, :fine_amount, :license_plate, :date_issued, :due_date, :location, :description, :officer_name, :photos);
+    INSERT INTO traffic_tickets (tkt_number, first_name, last_name, phone_number, offence_type, fine_amount, license_plate, date_issued, due_date, location, description, officer_name)
+    VALUES (:tkt_number, :first_name, :last_name, :phone_number, :offence_type, :fine_amount, :license_plate, :date_issued, :due_date, :location, :description, :officer_name);
     """
     )
 
