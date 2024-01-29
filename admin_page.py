@@ -163,6 +163,3 @@ def display_data():
         st.write(f"Today's date is {date}")
         df2 = pd.DataFrame(data.offence_type.value_counts()).reset_index()
         st.bar_chart(df2, x="offence_type", y="count")
-
-    with tab1:
-        refresh_data()
