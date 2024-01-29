@@ -117,6 +117,7 @@ def run_program(logged_on_officer: str) -> dict:
     try:
         return my_df
     except UnboundLocalError as e:
+        st.write(e)
         st.stop()
         return
 
