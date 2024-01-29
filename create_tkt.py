@@ -89,8 +89,9 @@ def create_offense() -> pd.DataFrame:
             "Description": offense_description,
         }
         df = pd.DataFrame(tkt_attributes, index=[0])
-        st.write(df)
 
+        # remove this below
+        st.write(df)
         st.write("Ticket Submitted")
         return df
 
@@ -98,6 +99,7 @@ def create_offense() -> pd.DataFrame:
 def run_program(logged_on_officer: str) -> dict:
     # Make sure Officer is logged on
     if logged_on_officer:
+        st.write(logged_on_officer)
         tkt_issued = create_offense()
         if tkt_issued is not None:
             n = 6
