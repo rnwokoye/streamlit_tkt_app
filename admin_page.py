@@ -4,6 +4,8 @@ import numpy as np
 import datetime
 import streamlit.components.v1 as components
 
+from sqlalchemy import text
+
 
 # define connection string
 conn = st.connection("cockroachdb", type="sql")
@@ -170,6 +172,29 @@ def display_data():
 
 def get_test_table():
     query = """SELECT * FROM mytable;"""
-    data = conn.query(query)
-    response = st.dataframe(data)
-    return response
+    data = conn.query(query, ttl=0)
+    if st.button("Get pets"):
+        response = st.dataframe(data)
+        st.success("Refreshed pets")
+        return response
+
+
+def test_insert_data():
+    owner = st.text_input("Owner_name: ")
+    pet_type = st.text_input("Pet Type: ")
+    query = text(
+        f""" INSERT INTO mytable (name, pet) values ('{owner}', '{pet_type}')"""
+    )
+
+    if owner is not None and pet_type is not None:
+        with st.form(key="Insert_pet", clear_on_submit=False):
+            submitted = st.form_submit_button("Insert Pet")
+            if submitted:
+                with conn.session as s:
+                    try:
+                        s.execute(query)
+                        s.commit()
+                        st.success("Inserted pets table")
+                    except Exception as e:
+                        st.write(e)
+                        st.warning("Could Not insert pets table")
