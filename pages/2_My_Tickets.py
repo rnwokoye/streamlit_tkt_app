@@ -3,14 +3,14 @@ import pandas as pd
 from create_tkt import conn
 
 
-st.title("Page 2 Here")
+officer = st.session_state.name
+username = st.session_state.username
+st.title(f"Tickets for {officer}")
 
 
 def get_my_tickets():
-    officer = st.session_state.username
-
     query = f""" 
-    SELECT * FROM traffic_tickets WHERE officer_name = '{officer}';
+    SELECT * FROM traffic_tickets WHERE officer_name = '{username}';
     """
 
     if officer is not None:
