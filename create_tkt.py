@@ -171,8 +171,6 @@ def insert_offense(offense_details: pd.DataFrame):
 
     # execute the query
     with conn.session as s:
-        st.write("Inserted")
-        print("Ticket added")
         s.execute(query, offense_details)
         s.commit()
     return True
