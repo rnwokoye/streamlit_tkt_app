@@ -116,16 +116,10 @@ def run_program(logged_on_officer: str) -> dict:
             log_out()
     try:
         return my_df
-    except Exception as e:
+    except UnboundLocalError as e:
         st.write(e)
         st.stop()
         return
-    # try:
-    #     return my_df
-    # except UnboundLocalError as e:
-    #     st.write(e)
-    #     st.stop()
-    #     return
 
 
 def insert_offense(offense_details: pd.DataFrame):
