@@ -187,7 +187,7 @@ def test_insert_data():
     )
 
     if owner is not None and pet_type is not None:
-        with st.form(key="Insert_pet", clear_on_submit=False):
+        with st.form(key="Insert_pet", clear_on_submit=True):
             submitted = st.form_submit_button("Insert Pet")
             if submitted:
                 with conn.session as s:
