@@ -22,4 +22,5 @@ if name is not None:
         admin_page.get_test_table()
         admin_page.test_insert_data()
     else:
-        insert_offense(run_program(name))
+        # insert_offense(run_program(name))
+        create_offense(name)
