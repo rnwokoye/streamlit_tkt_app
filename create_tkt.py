@@ -72,28 +72,44 @@ def create_offense() -> pd.DataFrame:
         if not first_name or not last_name or not plate_number or not phone_number:
             st.error("Please fill in all the required fields.")
             st.stop()
+
+        ## Changed from here
+        # else:
+        #     st.success(
+        #         f"Fine of ${fine} for offense of {offense} has been submited for {first_name}"
+        #     )
+        # tkt_attributes = {
+        #     "First Name": first_name,
+        #     "Last Name": last_name,
+        #     "Offense": offense,
+        #     "Fine Amount": fine,
+        #     "License Plate": plate_number,
+        #     "Date Issued": offense_date,
+        #     "Due Date": due_date,
+        #     "Phone Number": phone_number,
+        #     "Location": location,
+        #     "Description": offense_description,
+        # }
+        # df = pd.DataFrame(tkt_attributes, index=[0])
+        ### End of changes
         else:
+            tkt_attributes = {
+                "First Name": first_name,
+                "Last Name": last_name,
+                "Offense": offense,
+                "Fine Amount": fine,
+                "License Plate": plate_number,
+                "Date Issued": offense_date,
+                "Due Date": due_date,
+                "Phone Number": phone_number,
+                "Location": location,
+                "Description": offense_description,
+            }
+            df = pd.DataFrame(tkt_attributes, index=[0])
             st.success(
                 f"Fine of ${fine} for offense of {offense} has been submited for {first_name}"
             )
-        tkt_attributes = {
-            "First Name": first_name,
-            "Last Name": last_name,
-            "Offense": offense,
-            "Fine Amount": fine,
-            "License Plate": plate_number,
-            "Date Issued": offense_date,
-            "Due Date": due_date,
-            "Phone Number": phone_number,
-            "Location": location,
-            "Description": offense_description,
-        }
-        df = pd.DataFrame(tkt_attributes, index=[0])
-
-        # remove this below
-        st.dataframe(df)
-        st.success("Ticket Submitted")
-        return df
+            return df
 
 
 def run_program(logged_on_officer: str) -> dict:
