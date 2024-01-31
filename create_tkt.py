@@ -71,7 +71,7 @@ def create_offense() -> pd.DataFrame:
     if submit_button:
         if not first_name or not last_name or not plate_number or not phone_number:
             st.error("Please fill in all the required fields.")
-            st.stop()
+            # st.stop()
 
         ## Changed from here
         # else:
