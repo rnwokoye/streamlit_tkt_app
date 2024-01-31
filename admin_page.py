@@ -166,3 +166,10 @@ def display_data():
 
     with tab1:
         refresh_data()
+
+
+def get_test_table():
+    query = """SELECT * FROM mytable;"""
+    data = conn.query(query)
+    response = st.dataframe(data)
+    return response
