@@ -47,7 +47,7 @@ def create_offense() -> pd.DataFrame:
     # Get the offence info
     offense, fine = select_offense_df(get_offense_type("violations_list.csv"))
     # Input Offender Forms
-    with st.form(key="offense_form", clear_on_submit=True):
+    with st.form(key="offense_form", clear_on_submit=False):
         col1, col2 = st.columns(2)
 
         # Use a select box for the offense

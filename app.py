@@ -16,11 +16,10 @@ st.title("Traffic Ticket Assignement :male-pilot: 	:vertical_traffic_light:")
 
 log_in()
 name = st.session_state.name
-st.write(name)
 if name is not None:
     if is_admin(name):
         admin_page.display_data()
-        # admin_page.get_test_table()
-        # admin_page.test_insert_data()
+        admin_page.get_test_table()
+        admin_page.test_insert_data()
     else:
         insert_offense(run_program(name))
