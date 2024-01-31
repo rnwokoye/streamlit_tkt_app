@@ -115,7 +115,7 @@ def create_offense() -> pd.DataFrame:
 def run_program(logged_on_officer: str) -> dict:
     # Make sure Officer is logged on
     if logged_on_officer:
-        st.write(logged_on_officer)
+        # st.write(logged_on_officer)
         tkt_issued = create_offense()
         if tkt_issued is not None:
             n = 6
