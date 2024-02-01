@@ -147,8 +147,10 @@ def create_offense(officer_name: str):
             engine = get_connection()
 
             with engine.connect() as connection:
+                st.write("Hello There")
                 connection.execute(query, df)
                 connection.commit()
+                st.write("Bye There")
             # with conn.session as s:
             #     s.execute(query, df)
             #     s.commit()
