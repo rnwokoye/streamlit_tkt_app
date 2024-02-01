@@ -12,8 +12,6 @@ import admin_page
 
 conn = st.connection("cockroachdb", type="sql")
 
-db_config = st.secrets["cockroachdb"]
-
 
 def get_connection():
     db_config = st.secrets["cockroachdb"]
@@ -144,17 +142,10 @@ def create_offense(officer_name: str):
             )
             # Insert offence into DB
             query, df = insert_offense(df)
-            engine = get_connection()
-
-            with engine.connect() as connection:
-                st.write("Hello There")
-                connection.execute(query, df)
-                connection.commit()
-                st.write("Bye There")
-            # with conn.session as s:
-            #     s.execute(query, df)
-            #     s.commit()
-            # # return True
+            with conn.session as s:
+                s.execute(query, df)
+                s.commit()
+            # return True
 
             st.success(
                 f"Fine of ${fine} for offense of {offense} has been submited for {first_name}"
