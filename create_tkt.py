@@ -5,12 +5,21 @@ import json
 from datetime import datetime, timedelta
 from random import randint
 import streamlit as st
-from sqlalchemy import text, insert
+from sqlalchemy import text, insert, create_engine
 
 import admin_page
 
 
 conn = st.connection("cockroachdb", type="sql")
+
+db_config = st.secrets["cockroachdb"]
+
+
+def get_connection():
+    db_config = st.secrets["cockroachdb"]
+    db_url = f"cockroachdb://{db_config['username']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}?sslmode={db_config['sslmode']}"
+    engine = create_engine(db_url)
+    return engine
 
 
 def is_admin(username):
@@ -73,14 +82,18 @@ def insert_offense(offense_details: pd.DataFrame):
     """
     )
 
-    # execute the query
-    with conn.session as s:
-        s.execute(query, offense_details)
-        s.commit()
-    return True
+    # # execute the query
+    # with conn.session as s:
+    #     s.execute(query, offense_details)
+    #     s.commit()
+    # return True
+
+    # execute query with sql_engine:
+
+    return query, offense_details
 
 
-def create_offense(officer_name: str) -> pd.DataFrame:
+def create_offense(officer_name: str):
     # Get the offence info
     offense, fine = select_offense_df(get_offense_type("violations_list.csv"))
     # Input Offender Forms
@@ -130,8 +143,18 @@ def create_offense(officer_name: str) -> pd.DataFrame:
                 ["{}".format(randint(0, 9)) for num in range(0, n)]
             )
             # Insert offence into DB
-            insert_offense(df)
+            query, df = insert_offense(df)
+            engine = get_connection()
+
+            with engine.connect() as connection:
+                connection.execute(query, df)
+                connection.commit()
+            # with conn.session as s:
+            #     s.execute(query, df)
+            #     s.commit()
+            # # return True
+
             st.success(
                 f"Fine of ${fine} for offense of {offense} has been submited for {first_name}"
             )
-            return df
+            return True
